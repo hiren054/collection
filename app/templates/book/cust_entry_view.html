@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Book View {% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-left table">
+  <h5><a href="{{ url_for('views.customer_details') }}"><u> Back </u></a></h5>
+</div>
+
+<div class="d-flex justify-content-center table">
+    <h1><u>Name :- {{ name }}</u></h1>
+</div>
+
+<div class="container">
+<table class="table table-sm align-middle table-bordered table-hover table-responsive">
+    <thead class="text-center vertical-align: middle;">      
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Rate</th>
+        <th scope="col">Total</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody class="text-center vertical-align: middle;">
+      {% for book in books %}
+      <tr>
+        <!-- <h1>{{ book.users.name }}</h1> -->
+        <td scope="row">{{ loop.index }}</td>
+        <td><b>{{ book.qty }}</b><br>{{ book.detail }}</td>
+        <td>{{ book.rate }}</td>
+        <td>{{ book.total }}</td>
+        <td><a href="{{ url_for('views.delete_entry' , id=book.id) }}"><button class="btn btn-danger">Delete</button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <tfoot>
+    <div class="align-right">
+    {% if gr_total %}
+      <h3>Grand total :- {{ gr_total }}</h3>
+    {% endif %}
+  </tfoot>
+</div>
+</div>
+
+{% endblock %}

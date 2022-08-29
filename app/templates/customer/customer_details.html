@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %} Customer Details {% endblock %}
+
+{% block content %}
+
+<div class="row text-center">
+  {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+      {% for category, message in messages %}
+  <div class="alert alert-{{category}} text-center alter-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+      {% endfor %}
+    {% endif %} 
+  {% endwith %}
+</div>
+
+{% if users|length == 0 %}
+<div class="alert alert-warning text-center alter-dismissible fade show" role="alert">
+    Customer not found. <a href="{{ url_for('views.create_customer') }}" class="alert-link">Click here to create new customer</a>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+{% endif %}
+
+<div class="row">
+  {% for user in users %}
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body">
+        <a href="{{ url_for('views.update_customer', id=user.id) }}"><button type="button" class="btn btn-secondary">Update</button></a>
+        <a href="{{ url_for('views.delete_customer', id=user.id) }}"><button type="button" class="btn btn-danger">delete</button></a><br><br>
+        <h1 class="card-title">Name : {{ user.name.capitalize() }}</h1>
+        <p class="card-text">{{ user.phone_number }}</p>
+        <a href="{{ url_for('views.cust_entry_view',id=user.id) }}" class="btn btn-primary">View Book</a>
+      </div>
+    </div><br>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} Update Vendor {% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %} 
+{% if messages %} 
+{% for category, message in messages %} 
+<div class="alert alert-{{category}} text-center alter-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+
+<div class="container">
+  <form method="post" autocomplete="off" class="row g-3" enctype="multipart/form-data">
+    <div class="col-md-4">
+      <label for="d_no" class="form-label">Design Number :</label>
+      <input type="text" value="{{ data.d_no }}" name="d_no" class="form-control" id="inputEmail4" placeholder="1234" required>
+      <span></span>
+    </div>
+    <div class="col-md-6">
+      <label for="inputPassword4" class="form-label">Rate :</label>
+      <input type="text" value="{{ data.rate }}" name="rate" onchange="myfunc(this)" class="form-control" id="input_rate" placeholder="Rate" required>
+    </div>
+    <div class="col-6">
+      <label for="inputAddress" class="form-label">Stones :</label>
+      <input type="text" value="{{ data.final_stones }}" name="final_stones" class="form-control" id="input_stone" placeholder="3500" required>
+    </div>
+    {% for i in name %}
+    <div class="form-check">
+      <label><input class="form-check-input" type="radio" name="vendor" {% if data.name == i  %} checked {% endif %}  value = "{{i}}" id="flexRadioDefault1">{{i.capitalize()}}</label>
+    </div>
+    {% endfor %}
+    <div>
+    <img class="img-thumbnail" src="{{ url_for('static', filename='img/' + data.img) }}" width="20%" height="20%" alt="">
+    </div>
+    <div class="col-12">
+      <label for="inputAddress2" class="form-label">Image :</label>
+      <input type="file" value="" name="img" class="form-control" id="inputAddress2" >
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

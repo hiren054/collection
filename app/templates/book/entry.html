@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %} customer-entry {% endblock %}
+
+{% block content%}
+
+<div class="row text-center">
+  {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+      {% for category, message in messages %}
+  <div class="alert alert-{{category}} text-center alter-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+      {% endfor %}
+    {% endif %} 
+  {% endwith %}
+</div>
+
+<div class="container">
+    <div class="row">
+    <form action="#" method="post" autocomplete="off" class="row g-3" enctype="multipart/form-data">
+      <select name="customer_id" class="form-select" aria-label="Default select example">
+        <option selected>Select Customer</option>
+        {% for name in names %}
+        <option value="{{ name.id }}">{{ name.name }}</option>
+        {% endfor %}
+    </select>
+      <div class="col-8">
+        <label for="inputEmail4" class="form-label">Quantity </label>
+        <input type="text" name="qty" class="form-control" id="qty" placeholder="Quantity" required>
+      </div>
+      <div class="col-8">
+        <label for="inputEmail4" class="form-label">Description :-  </label>
+        <input type="text" name="detail" class="form-control" id="detail" placeholder="Details">
+      </div>
+      <div class="col-8">
+        <label for="inputAddress" class="form-label">Rate :- </label>
+        <input type="text" name="rate" onchange="final_total(this)" class="form-control" id="rate" placeholder="Rate" required>
+      </div>
+      <div class="col-8">
+        <label for="inputAddress" class="form-label">Total :- </label>
+        <input type="text" name="total" class="form-control" id="total" placeholder="Total" required>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

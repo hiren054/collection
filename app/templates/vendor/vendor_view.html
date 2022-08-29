@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %} Vendors {% endblock %}
+
+{% block content %}
+
+<div class="row">
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		{% for category, message in messages %}
+		<div class="alert alert-{{category}} text-center alter-dismissible fade show" role="alert">
+		{{ message }}
+		<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		</div>
+		{% endfor %}
+	{% endif %}
+	{% endwith %}
+</div>
+
+<div class="row row-cols-2 row-cols-md-3 mr-5 g-4">
+	{% for data in datas %}
+	<div class="col">
+		<div class="card h-100" id="card">
+			<div class="text-center px-0">
+				<img src="{{ url_for('static', filename='img/' + data.img) }}"
+					class="p-2 card-img-top image-fluid img-responsive" alt="..." />
+			</div>
+			<div class="card-body text-center">
+				<h1 class="card-title"><b>{{data.name.capitalize()}}</b></h1>
+				<p class="card-title">D-{{data.d_no}}</p>
+				<p class="card-text mb-0">Rate :- {{data.rate}}</p>
+				<p class="card-text">Stones :- {{data.final_stones}}</p>
+
+				<button type="button" class="btn btn-outline-primary button" data-bs-toggle="modal"
+					data-bs-target="#view{{data.id}}">
+					View
+				</button>
+
+				<div class="modal fade" id="view{{data.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel"></h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<h2>D-{{data.d_no}}</h2>
+								<img src="{{ url_for('static', filename='img/' + data.img) }}" width="300"
+									class="p-2 card-img-top image-fluid img-responsive" alt="..." />
+							</div>
+							<div class="modal-footer">
+								<a href="{{ url_for('views.update', id=data.id,name=data.name) }}"><button type="button"
+										class="btn btn-outline-primary">
+										Update
+									</button></a>
+								<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+									data-bs-target="#del{{data.id}}">
+									Delete
+								</button>
+								<button type="button" class="btn btn-primary btn-sm"
+									data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="del{{data.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Are you sure want to delete?</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<h2>D-{{data.d_no}}</h2>
+								<img src="{{ url_for('static', filename='img/' + data.img) }}" width="300"
+									class="p-2 card-img-top image-fluid img-responsive" alt="..." />
+							</div>
+							<div class="modal-footer">
+								<div class="mr-auto"> <a
+										href="{{ url_for('views.delete', id=data.id,name = data.name) }}"
+										class="btn btn-danger btn-sm">Delete</a></div>
+								<button type="button" class="btn btn-primary btn-sm"
+									data-bs-dismiss="modal">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock %}
